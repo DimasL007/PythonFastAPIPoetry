@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from schemas.users import UserCreate
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -7,10 +7,10 @@ router = APIRouter(prefix="/users", tags=["users"])
 fake_db = {}
 
 
-@router.post("/")
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def create_user(user: UserCreate):
     user_id = len(fake_db) + 1
-    user_data = user.model_dump()  # або user.dict() для старіших версій pydantic
+    user_data = user.model_dump()
     fake_db[user_id] = {"id": user_id, **user_data}
     return fake_db[user_id]
 

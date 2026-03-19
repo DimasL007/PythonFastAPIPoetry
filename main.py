@@ -8,4 +8,4 @@ app.include_router(users_router)
 
 @app.get("/")
 def root():
-    return {"message": "Hello Dima! Server is running!"}
+    return {"message": "Hello User! Server is running!"}

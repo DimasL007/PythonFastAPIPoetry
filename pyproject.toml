@@ -14,6 +14,7 @@ myapplication = "^0.1.0"
 the-new-hotness = "^1.3.0"
 django-email-users = "^2.1.0"
 pydantic2 = "^1.1.15"
+poetry = "^2.3.2"
 
 
 [build-system]
