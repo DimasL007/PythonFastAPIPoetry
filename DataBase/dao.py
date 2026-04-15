@@ -1,5 +1,5 @@
 from sqlalchemy.future import select
-from models import User, Product, Category, Order, UserProfile
+from DataBase.models import User, Product, Category, Order, UserProfile
 
 # Базовий клас для повторення логіки (щоб не писати одне і те ж)
 class BaseDAO:

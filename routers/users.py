@@ -1,45 +1,44 @@
-from fastapi import APIRouter, HTTPException, status
-from schemas.users import UserCreate
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.ext.asyncio import AsyncSession
+from typing import List
 
-router = APIRouter(prefix="/users", tags=["users"])
+from DataBase.dao import UserDAO
+from schemas.schemas import UserRead, UserCreate
+from core.asyncsession_maker import get_db
 
-# --- Емуляція бази даних (звичайний словник) ---
-fake_db = {}
-
-
-@router.post("/", status_code=status.HTTP_201_CREATED)
-def create_user(user: UserCreate):
-    user_id = len(fake_db) + 1
-    user_data = user.model_dump()
-    fake_db[user_id] = {"id": user_id, **user_data}
-    return fake_db[user_id]
+router = APIRouter(prefix="/users", tags=["Users"])
 
 
-@router.get("/")
-def get_all_users():
-    return list(fake_db.values())
+# 1. Отримати список усіх користувачів
+@router.get("", response_model=List[UserRead])
+async def get_all_users(db: AsyncSession = Depends(get_db)):
+    users = await UserDAO.find_all(db)
+    return users
 
 
-@router.get("/{user_id}")
-def get_user(user_id: int):
-    if user_id not in fake_db:
-        raise HTTPException(status_code=404, detail="User not found")
-    return fake_db[user_id]
+# 2. Створити нового користувача
+@router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+async def create_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
+    # Додаємо запис у базу даних через DAO
+    new_user = await UserDAO.add(db, user)
+    return new_user
 
 
-@router.put("/{user_id}")
-def update_user(user_id: int, user_update: UserCreate):
-    if user_id not in fake_db:
-        raise HTTPException(status_code=404, detail="User not found")
+# 3. Отримати одного користувача за ID
+@router.get("/{user_id}", response_model=UserRead)
+async def get_user_by_id(user_id: int, db: AsyncSession = Depends(get_db)):
+    user = await UserDAO.find_all(db)
+    result = next((u for u in user if u.id == user_id), None)
 
-    updated_data = user_update.model_dump()
-    fake_db[user_id] = {"id": user_id, **updated_data}
-    return fake_db[user_id]
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Користувача з ID {user_id} не знайдено"
+        )
+    return result
 
 
+# 4. Видалити користувача
 @router.delete("/{user_id}")
-def delete_user(user_id: int):
-    if user_id not in fake_db:
-        raise HTTPException(status_code=404, detail="User not found")
-    del fake_db[user_id]
-    return {"message": "User deleted successfully"}
+async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)):
+    return {"message": f"Користувач {user_id} видалений (реалізуй метод delete в DAO)"}

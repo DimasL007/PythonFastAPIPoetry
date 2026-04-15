@@ -1,7 +1,7 @@
 from typing import List, Optional
 from sqlalchemy import ForeignKey, String, BigInteger, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from asyncsession_maker import Base
+from core.asyncsession_maker import Base
 
 
 # 1. Модель Користувача (User)
