@@ -12,8 +12,10 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
 
+    # ДОДАЄМО колонку для пароля:
+    hashed_password: Mapped[str] = mapped_column(String, nullable=False)
+
     # Зв'язок 1:1 з профілем (One-to-One)
-    # uselist=False робить цей зв'язок саме одиничним
     profile: Mapped["UserProfile"] = relationship(back_populates="user", uselist=False)
 
     # Зв'язок 1:M з замовленнями (One-to-Many)

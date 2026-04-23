@@ -14,5 +14,5 @@ async def get_all_categories(db: AsyncSession = Depends(get_db)):
 
 @router.post("", response_model=CategoryRead, status_code=status.HTTP_201_CREATED)
 async def create_category(category: CategoryCreate, db: AsyncSession = Depends(get_db)):
-    # Передаємо об'єкт схеми прямо в DAO
-    return await CategoryDAO.add(db, category)
+    # .model_dump() перетворює схему в dict, а ** розпаковує його в аргументи
+    return await CategoryDAO.add(db, **category.model_dump())

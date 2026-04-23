@@ -14,4 +14,4 @@ async def get_all_products(db: AsyncSession = Depends(get_db)):
 
 @router.post("", response_model=ProductRead, status_code=status.HTTP_201_CREATED)
 async def create_product(product: ProductCreate, db: AsyncSession = Depends(get_db)):
-    return await ProductDAO.add(db, product)
+    return await ProductDAO.add(db, **product.model_dump())

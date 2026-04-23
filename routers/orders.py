@@ -14,4 +14,4 @@ async def get_all_orders(db: AsyncSession = Depends(get_db)):
 
 @router.post("", response_model=OrderRead, status_code=status.HTTP_201_CREATED)
 async def create_order(order: OrderCreate, db: AsyncSession = Depends(get_db)):
-    return await OrderDAO.add(db, order)
+    return await OrderDAO.add(db, **order.model_dump())

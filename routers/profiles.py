@@ -14,4 +14,4 @@ async def get_all_profiles(db: AsyncSession = Depends(get_db)):
 
 @router.post("", response_model=UserProfileRead, status_code=status.HTTP_201_CREATED)
 async def create_profile(profile: UserProfileCreate, db: AsyncSession = Depends(get_db)):
-    return await UserProfileDAO.add(db, profile)
+    return await UserProfileDAO.add(db, **profile.model_dump())

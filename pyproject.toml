@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "practiceprogramingpython"
-version = "1.0.0 Alpha"
+version = "1.0.0-Alpha"
 description = ""
 authors = ["DimaL007"]
 readme = "README.md"
@@ -23,6 +23,8 @@ python-dotenv = "^1.2.2"
 async = "^0.6.2"
 automium-web = "^0.1.1"
 core-models = "^0.5.7"
+python-jose = "^3.5.0"
+passlib = "^1.7.4"
 
 
 [build-system]
