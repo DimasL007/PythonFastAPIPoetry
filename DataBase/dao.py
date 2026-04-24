@@ -25,7 +25,6 @@ class BaseDAO:
 
     @classmethod
     async def delete(cls, session: AsyncSession, user_id: int):
-        # Знаходимо юзера
         query = select(cls.model).filter_by(id=user_id)
         result = await session.execute(query)
         user = result.scalar_one_or_none()

@@ -14,7 +14,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Магазин (Приклад) на FastAPI",
+    title="Магазин (Приклад) на FastAPI і Docker",
     lifespan=lifespan
 )
 

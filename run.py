@@ -2,7 +2,6 @@ import uvicorn
 import os
 import sys
 
-# Цей рядок примусово каже Python шукати модулі в поточній папці
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 if __name__ == "__main__":

@@ -14,5 +14,4 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env")
 
-# ОСЬ ЦЕЙ РЯДОК МАЄ БУТИ ТУТ:
 settings = Settings()
